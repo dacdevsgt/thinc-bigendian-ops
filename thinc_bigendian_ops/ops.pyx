@@ -1,9 +1,11 @@
 cimport cython
 cimport numpy as np
 
+from libc.stdint cimport uint32_t, uint64_t
 from typing import Optional
 import numpy
 from thinc.api import NumpyOps
+from murmurhash.mrmr cimport hash64, hash128_x86, hash128_x64
 from .. import registry
     
 @registry.ops("BigEndianOps")
@@ -16,7 +18,7 @@ class BigEndianOps(NumpyOps):
     def asarray(self, data, dtype=None):
         if isinstance(data, self.xp.ndarray):
             if dtype is not None:
-                if data.dtype.byteorder == ‘<’:
+                if data.dtype.byteorder == "<":
                     data = data.byteswap().newbyteorder()
                 return self.xp.asarray(data, dtype=dtype)
             else:

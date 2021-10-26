@@ -3,5 +3,6 @@ requires = [
     "setuptools",
     "cython>=0.25",
     "numpy>=1.21.0",
+    "murmurhash>=0.28.0,<1.1.0",
 ]
 build-backend = "setuptools.build_meta"
