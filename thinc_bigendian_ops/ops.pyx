@@ -26,7 +26,7 @@ class BigEndianOps(NumpyOps):
                     print("no swap, was  ",data.dtype.byteorder)
                 return self.xp.asarray(data, dtype=dtype)
             else:
-                print("no swap, was none")
+                print("no swap, was non here")
                 return self.xp.asarray(data)
         elif hasattr(data, 'numpy'):
             # Handles PyTorch Tensor
