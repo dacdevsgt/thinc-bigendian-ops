@@ -22,7 +22,7 @@ class BigEndianOps(NumpyOps):
                 if data.dtype.byteorder == "<":
                     print("swapping byte order, was: ",data.dtype.byteorder)
                     data = data.byteswap().newbyteorder()
-                else
+                else:
                     print("no swap, was  ",data.dtype.byteorder)
                 return self.xp.asarray(data, dtype=dtype)
             else:
