@@ -19,7 +19,7 @@ class BigEndianOps(NumpyOps):
         print("in big-endian-ops asarray")
         # If we detect little endian data, we should byteswap and correct byteorder 
         # indication in numpy ndarray
-        def swap_if_le(self, data, dtype=None):
+        def swap_if_le(data, dtype=None):
             if not isinstance(data, self.xp.ndarray): 
                 out = self.xp.asarray(data, dtype=dtype)
             else:
