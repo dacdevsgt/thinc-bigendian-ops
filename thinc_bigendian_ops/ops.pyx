@@ -43,7 +43,7 @@ class BigEndianOps(NumpyOps):
             print("dtype is not none")
             if data.dtype.byteorder == "<":
                 print("swapped dtype is not none")
-                data = self.xp.asarray(data).byteswap().newbyteorder()
+                data = self.xp.asarray(data, dtype=dtype).byteswap().newbyteorder()
                 return data
             return self.xp.array(data, dtype=dtype)
         else:
