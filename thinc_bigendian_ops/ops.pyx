@@ -20,18 +20,26 @@ class BigEndianOps(NumpyOps):
         if isinstance(data, self.xp.ndarray):
             if dtype is not None:
                 if data.dtype.byteorder == "<":
+                    print("swapping byte order, was: ",data.dtype.byteorder)
                     data = data.byteswap().newbyteorder()
+                else
+                    print("no swap, was  ",data.dtype.byteorder)
                 return self.xp.asarray(data, dtype=dtype)
             else:
+                print("no swap, was none")
                 return self.xp.asarray(data)
         elif hasattr(data, 'numpy'):
             # Handles PyTorch Tensor
+            print("no swap, was torch")
             return data.numpy()
         elif hasattr(data, "get"):
+            print("no swap, was get")
             return data.get()
         elif dtype is not None:
+            print("no swap, dtype is not none")
             return self.xp.array(data, dtype=dtype)
         else:
+            print("no swap, else")
             return self.xp.array(data)
 
 
