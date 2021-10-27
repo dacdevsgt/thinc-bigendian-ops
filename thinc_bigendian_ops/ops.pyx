@@ -14,6 +14,7 @@ class BigEndianOps(NumpyOps):
     xp = numpy
 
     def asarray(self, data, dtype=None):
+        print("in big-endian-ops asarray")
         if isinstance(data, self.xp.ndarray):
             if dtype is not None:
                 if data.dtype.byteorder == "<":
@@ -50,6 +51,7 @@ class BigEndianOps(NumpyOps):
         #   mapping the hash results a reversal of the resulting keys on big endian platforms. The
         #   approach used here implements a byteorder agnostic approach that will result in an 
         #   consistent result regardless of implementation platform. 
+        print("in big-endian-ops hash")
         for i in range(n_items):
             for k in range(in_size):
                 src[k] = (ids[i] >> (k*8)) & 0xFF
