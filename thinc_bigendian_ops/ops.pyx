@@ -5,8 +5,10 @@ from libc.stdint cimport uint32_t, uint64_t
 from typing import Optional
 import numpy
 from thinc.api import NumpyOps
+from thinc.config import registry
 from murmurhash.mrmr cimport hash64, hash128_x86, hash128_x64
-    
+
+@registry.ops("BigEndianOps")    
 class BigEndianOps(NumpyOps):
     """Thinc Ops class that handles big endian impacts for some
     operations. Other operations fall back to numpy."""
