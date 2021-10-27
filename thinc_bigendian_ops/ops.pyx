@@ -22,12 +22,15 @@ class BigEndianOps(NumpyOps):
                 if data.dtype.byteorder == "<":
                     print("swapping byte order, was: ",data.dtype.byteorder)
                     data = data.byteswap().newbyteorder()
+                    return data
                 else:
                     print("no swap, was  ",data.dtype.byteorder)
                 return self.xp.asarray(data, dtype=dtype)
             else:
-                data = self.xp.asarray(data).byteswap().newbyteorder()
-                print("added swap, was none here, data: ", data.dtype.byteorder)
+                if data.dtype.byteorder == "<":
+                    data = self.xp.asarray(data).byteswap().newbyteorder()
+                    print("added swap, was none here, data: ", data.dtype.byteorder)
+                    return data
                 return self.xp.asarray(data)
         elif hasattr(data, 'numpy'):
             # Handles PyTorch Tensor
@@ -37,7 +40,11 @@ class BigEndianOps(NumpyOps):
             print("no swap, was get")
             return data.get()
         elif dtype is not None:
-            print("no swap, dtype is not none")
+            print("dtype is not none")
+            if data.dtype.byteorder == "<":
+                print("swapped dtype is not none")
+                data = self.xp.asarray(data).byteswap().newbyteorder()
+                return data
             return self.xp.array(data, dtype=dtype)
         else:
             print("no swap, else")
