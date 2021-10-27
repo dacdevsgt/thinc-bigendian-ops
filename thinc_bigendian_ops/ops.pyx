@@ -6,9 +6,7 @@ from typing import Optional
 import numpy
 from thinc.api import NumpyOps
 from murmurhash.mrmr cimport hash64, hash128_x86, hash128_x64
-from .. import registry
     
-@registry.ops("BigEndianOps")
 class BigEndianOps(NumpyOps):
     """Thinc Ops class that handles big endian impacts for some
     operations. Other operations fall back to numpy."""
