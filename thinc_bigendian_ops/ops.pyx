@@ -17,39 +17,32 @@ class BigEndianOps(NumpyOps):
 
     def asarray(self, data, dtype=None):
         print("in big-endian-ops asarray")
+        # If we detect little endian data, we should byteswap and correct byteorder 
+        # indication in numpy ndarray
+        def swap_if_le(self, data, dtype=None):
+            if not isinstance(data, self.xp.ndarray): 
+                out = self.xp.asarray(data, dtype=dtype)
+            else:
+                out = self.xp.asarray(data)
+            if out.dtype.byteorder == "<":
+                return out.byteswap().newbyteorder()
+            else:
+                return out
+
         if isinstance(data, self.xp.ndarray):
             if dtype is not None:
-                if data.dtype.byteorder == "<":
-                    print("swapping byte order, was: ",data.dtype.byteorder)
-                    data = data.byteswap().newbyteorder()
-                    return data
-                else:
-                    print("no swap, was  ",data.dtype.byteorder)
-                return self.xp.asarray(data, dtype=dtype)
+                return swap_if_le(data,dtype)
             else:
-                if data.dtype.byteorder == "<":
-                    data = self.xp.asarray(data).byteswap().newbyteorder()
-                    print("added swap, was none here, data: ", data.dtype.byteorder)
-                    return data
-                return self.xp.asarray(data)
+                return swap_if_le(data)
         elif hasattr(data, 'numpy'):
             # Handles PyTorch Tensor
-            print("no swap, was torch")
-            return data.numpy()
+            return swap_if_le(data.numpy())
         elif hasattr(data, "get"):
-            print("no swap, was get")
             return data.get()
         elif dtype is not None:
-            print("dtype is not none")
-            out = self.xp.array(data, dtype=dtype)
-            if out.dtype.byteorder == "<":
-                print("swapped dtype is not none")
-                out = out.byteswap().newbyteorder()
-                return out
-            return out
+            return swap_if_le(data,dtype)
         else:
-            print("no swap, else")
-            return self.xp.array(data)
+            return swap_if_le(data)
 
 
     @cython.boundscheck(False)
