@@ -27,7 +27,6 @@ def setup_package():
             "thinc_bigendian_ops.ops",
             ["thinc_bigendian_ops/ops.pyx"],
             include_dirs=[numpy.get_include()],
-            libraries=["blas"],
         ),
     ]
 
