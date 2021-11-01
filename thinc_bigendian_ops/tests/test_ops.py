@@ -1,6 +1,6 @@
 import pytest
 import numpy
-from thinc_bigendian_ops.ops import BigEndianOps
+from thinc_bigendian_ops.bigendian_ops import BigEndianOps
 
 
 def test_endian_conversion():

@@ -25,7 +25,7 @@ def setup_package():
     extensions = [
         Extension(
             "thinc_bigendian_ops.ops",
-            ["thinc_bigendian_ops/ops.pyx"],
+            ["thinc_bigendian_ops/bigendian_ops.pyx"],
             include_dirs=[numpy.get_include()],
         ),
     ]
