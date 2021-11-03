@@ -17,33 +17,27 @@ class BigEndianOps(NumpyOps):
 
     def asarray(self, data, dtype=None):
         # If we detect little endian data, we should byteswap and correct byteorder 
-        # indication in numpy ndarray
-        def swap_if_le(data, dtype=None):
-            if not isinstance(data, self.xp.ndarray): 
+        if isinstance(data, self.xp.ndarray):
+            if dtype is not None:
                 out = self.xp.asarray(data, dtype=dtype)
             else:
                 out = self.xp.asarray(data)
-            if out.dtype.byteorder == "<":
-                return out.byteswap().newbyteorder()
-            else:
-                return out
-
-        if isinstance(data, self.xp.ndarray):
-            if dtype is not None:
-                return swap_if_le(data,dtype)
-            else:
-                return swap_if_le(data)
         elif hasattr(data, 'numpy'):
             # Handles PyTorch Tensor
-            return swap_if_le(data.numpy())
+            out = data.numpy()
         elif hasattr(data, "get"):
-            return data.get()
+            out = data.get()
         elif dtype is not None:
-            return swap_if_le(data,dtype)
+            out = self.xp.array(data, dtype=dtype)
         else:
-            return swap_if_le(data)
+            out = self.xp.array(data)
+        
+        if out.dtype.byteorder == "<":
+            return out.byteswap().newbyteorder()
+        else:
+            return out
 
-
+        
     @cython.boundscheck(False)
     @cython.wraparound(False)
     def hash(self, const uint64_t[::1] ids, uint32_t seed):
