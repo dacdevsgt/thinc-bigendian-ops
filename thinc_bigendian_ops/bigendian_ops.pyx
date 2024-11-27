@@ -33,6 +33,6 @@ class BigEndianOps(NumpyOps):
             out = self.xp.array(data)
         
         if out.dtype.byteorder == "<":
-            return out.byteswap().newbyteorder()
+            return out.byteswap().view(out.dtype.newbyteorder())
         else:
             return out
